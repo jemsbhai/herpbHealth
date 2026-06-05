@@ -1,0 +1,29 @@
+[
+  {
+    "Method": "Plaintext / MPC (identical)",
+    "EM": 0.43,
+    "Yes_Acc": 0.5625,
+    "No_Acc": 0.2153846153846154,
+    "Maybe_Acc": 0.391304347826087,
+    "Unparseable": 0.0,
+    "N": 200
+  },
+  {
+    "Method": "dp_eps1",
+    "EM": 0.205,
+    "Yes_Acc": 0.11607142857142858,
+    "No_Acc": 0.18461538461538463,
+    "Maybe_Acc": 0.6956521739130435,
+    "Unparseable": 0.005,
+    "N": 200
+  },
+  {
+    "Method": "dp_eps10",
+    "EM": 0.18,
+    "Yes_Acc": 0.08928571428571429,
+    "No_Acc": 0.13846153846153847,
+    "Maybe_Acc": 0.7391304347826086,
+    "Unparseable": 0.01,
+    "N": 200
+  }
+]

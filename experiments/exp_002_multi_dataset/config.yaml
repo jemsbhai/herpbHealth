@@ -1,0 +1,54 @@
+# EXP-002: Multi-Dataset Retrieval (MedQA + MedMCQA)
+# Tests ranking preservation across additional medical benchmarks
+
+experiment:
+  id: "EXP-002"
+  name: "multi_dataset"
+  description: "Verify private retrieval correctness on MedQA and MedMCQA"
+
+datasets:
+  - name: "MedMCQA"
+    hf_path: "openlifescienceai/medmcqa"
+    split: "validation"
+    max_samples: 2000
+    # Has explanation field -> use as PubMedQA-style self-retrieval
+    mode: "self_retrieval"
+
+  - name: "MedQA"
+    hf_path: "GBaker/MedQA-USMLE-4-options"
+    corpus_split: "train"
+    query_split: "test"
+    max_corpus: 2000
+    max_queries: 1000
+    # No context passages -> use training vignettes as corpus, test as queries
+    mode: "cross_split"
+
+embedding_models:
+  - name: "MedCPT"
+    hf_path: "ncbi/MedCPT-Article-Encoder"
+    query_encoder: "ncbi/MedCPT-Query-Encoder"
+    dimension: 768
+    batch_size: 64
+  - name: "MiniLM"
+    hf_path: "sentence-transformers/all-MiniLM-L6-v2"
+    query_encoder: null
+    dimension: 384
+    batch_size: 64
+
+encoding:
+  scale_bits: 16
+
+retrieval:
+  top_k: [1, 5, 10]
+  modes: ["plaintext", "query_private", "mutual_privacy"]
+
+differential_privacy:
+  epsilons: [1, 10]
+  delta: 1.0e-6
+  l2_sensitivity: 2.0
+  noise_trials: 5
+
+reproducibility:
+  seed: 42
+
+output_dir: "experiments/exp_002_multi_dataset"

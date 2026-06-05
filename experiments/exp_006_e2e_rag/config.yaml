@@ -1,0 +1,46 @@
+# EXP-006: End-to-End RAG Quality
+# Retrieval + LLM generation on PubMedQA
+
+experiment:
+  id: "EXP-006"
+  name: "e2e_rag"
+  description: "End-to-end RAG: retrieve docs privately, generate with LLM, measure answer quality"
+
+source_experiment: "exp_000_pubmedqa_baseline"
+
+dataset:
+  name: "PubMedQA"
+  hf_path: "qiaojin/PubMedQA"
+  hf_subset: "pqa_labeled"
+  split: "train"
+
+llm:
+  # Local GGUF model
+  model_path: "E:/data/code/claudecode/epistemic-edge/models/phi-3.5-mini/Phi-3.5-mini-instruct-Q4_K_M.gguf"
+  n_ctx: 2048
+  n_gpu_layers: -1            # offload all layers to GPU
+  max_tokens: 32
+  temperature: 0.0            # greedy
+
+embedding_model:
+  name: "MiniLM"
+  dimension: 384
+
+retrieval:
+  top_k: 5
+
+evaluation:
+  max_queries: 200
+  methods:
+    - name: "plaintext"
+    - name: "dp_eps1"
+      epsilon: 1
+      delta: 1.0e-6
+    - name: "dp_eps10"
+      epsilon: 10
+      delta: 1.0e-6
+
+reproducibility:
+  seed: 42
+
+output_dir: "experiments/exp_006_e2e_rag"

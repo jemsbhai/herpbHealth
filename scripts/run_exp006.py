@@ -1,14 +1,15 @@
 """
 EXP-006: End-to-End RAG Quality
 
-Retrieves documents using plaintext and DP, generates answers with a local
-LLM (GGUF via llama-cpp-python), and compares answer quality. MPC retrieval
-produces identical documents to plaintext (proven in EXP-000), so MPC answer
-quality is identical by construction.
+Retrieves documents using plaintext and DP, generates answers via a local
+llama.cpp server (OpenAI-compatible API), and compares answer quality. MPC
+retrieval produces identical documents to plaintext (proven in EXP-000), so
+MPC answer quality is identical by construction.
 
 Usage:
-    pip install llama-cpp-python
-    python scripts/run_exp006.py
+    1. Start llama-server in another terminal:
+       llama-server.exe -m Phi-3.5-mini-instruct-Q4_K_M.gguf -ngl 99 -c 4096
+    2. python scripts/run_exp006.py
 """
 
 import json
@@ -19,6 +20,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import requests
 import yaml
 from tqdm import tqdm
 
@@ -27,36 +29,27 @@ CONFIG_PATH = PROJECT_ROOT / "configs" / "exp_006_e2e_rag.yaml"
 OUTPUT_DIR = PROJECT_ROOT / "experiments" / "exp_006_e2e_rag"
 SOURCE_DIR = PROJECT_ROOT / "experiments" / "exp_000_pubmedqa_baseline" / "results"
 
+SERVER_URL = "http://localhost:8080"
+
 
 def load_config():
     with open(CONFIG_PATH) as f:
         return yaml.safe_load(f)
 
 
-# ---------------------------------------------------------------------------
-# Dataset
-# ---------------------------------------------------------------------------
-
 def load_pubmedqa(ds_cfg):
-    """Load PubMedQA with gold answers."""
     from datasets import load_dataset
-
     ds = load_dataset(ds_cfg["hf_path"], ds_cfg["hf_subset"], split=ds_cfg["split"])
-
     data = []
     for row in ds:
         context = " ".join(row["context"]["contexts"])
         data.append({
             "question": row["question"],
             "context": context,
-            "gold_answer": row["final_decision"],  # yes/no/maybe
+            "gold_answer": row["final_decision"],
         })
     return data
 
-
-# ---------------------------------------------------------------------------
-# Retrieval methods
-# ---------------------------------------------------------------------------
 
 def get_plaintext_topk(query_embs, corpus_embs, k):
     sim = query_embs @ corpus_embs.T
@@ -73,31 +66,29 @@ def get_dp_topk(query_embs, corpus_embs, k, epsilon, delta, seed):
     return np.argsort(-sim, axis=1)[:, :k]
 
 
-# ---------------------------------------------------------------------------
-# LLM (llama-cpp-python with GGUF)
-# ---------------------------------------------------------------------------
-
-def load_llm(llm_cfg):
-    """Load a GGUF model via llama-cpp-python."""
-    from llama_cpp import Llama
-
-    model_path = llm_cfg["model_path"]
-    print(f"\n  Loading LLM: {model_path}")
-    print(f"  n_ctx={llm_cfg['n_ctx']}, n_gpu_layers={llm_cfg['n_gpu_layers']}")
-
-    model = Llama(
-        model_path=model_path,
-        n_ctx=llm_cfg["n_ctx"],
-        n_gpu_layers=llm_cfg["n_gpu_layers"],
-        verbose=False,
-    )
-    print("  LLM loaded.")
-    return model
+def check_server():
+    try:
+        r = requests.get(f"{SERVER_URL}/health", timeout=5)
+        if r.status_code == 200:
+            print(f"  Server healthy at {SERVER_URL}")
+            return True
+    except requests.ConnectionError:
+        pass
+    print(f"  ERROR: llama.cpp server not running at {SERVER_URL}")
+    print(f"  Start it in another terminal first.")
+    return False
 
 
-def format_rag_prompt(question, context_passages):
-    """Format a RAG prompt for PubMedQA (yes/no/maybe)."""
-    context = "\n\n".join(context_passages)
+def format_rag_prompt(question, context_passages, max_ctx_chars=12000):
+    """Format prompt with truncation to fit server context window."""
+    # Truncate each passage proportionally to share the budget
+    n = len(context_passages) if context_passages else 1
+    budget_per = max_ctx_chars // n
+    truncated = [p[:budget_per] for p in context_passages]
+    context = "\n\n".join(truncated)
+    # Final safety truncation
+    if len(context) > max_ctx_chars:
+        context = context[:max_ctx_chars]
     return (
         f"Based on the following medical research context, answer the "
         f"question with exactly one word: Yes, No, or Maybe.\n\n"
@@ -107,24 +98,27 @@ def format_rag_prompt(question, context_passages):
     )
 
 
-def generate_answer(model, prompt, max_tokens=32, temperature=0.0):
-    """Generate an answer from the GGUF model."""
-    output = model(
-        prompt,
-        max_tokens=max_tokens,
-        temperature=temperature,
-        echo=False,
-        stop=["\n", ".", "Question:", "Context:"],
-    )
-    return output["choices"][0]["text"].strip()
+def generate_answer(prompt, max_tokens=32):
+    payload = {
+        "prompt": prompt,
+        "n_predict": max_tokens,
+        "temperature": 0.0,
+        "stop": ["\n", "Question:", "Context:", "\n\n"],
+        "cache_prompt": True,
+    }
+    try:
+        r = requests.post(f"{SERVER_URL}/completion", json=payload, timeout=120)
+        r.raise_for_status()
+        return r.json()["content"].strip()
+    except Exception as e:
+        print(f"    Server error: {e}")
+        return ""
 
 
 def parse_answer(raw_answer):
-    """Extract yes/no/maybe from LLM output."""
     lower = raw_answer.lower().strip()
     first_word = lower.split()[0] if lower.split() else ""
-    first_word = first_word.strip(".,;:!?\"'")
-
+    first_word = first_word.strip(".,;:!?\"'()")
     if first_word in ["yes", "no", "maybe"]:
         return first_word
     for label in ["yes", "no", "maybe"]:
@@ -132,10 +126,6 @@ def parse_answer(raw_answer):
             return label
     return "unparseable"
 
-
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
 
 def main():
     cfg = load_config()
@@ -150,12 +140,13 @@ def main():
     if not frozen.exists():
         shutil.copy2(CONFIG_PATH, frozen)
 
-    # Load dataset
+    if not check_server():
+        return
+
     print("Loading PubMedQA...")
     data = load_pubmedqa(cfg["dataset"])
     print(f"  {len(data)} examples loaded")
 
-    # Subsample
     rng = np.random.default_rng(seed)
     if len(data) > max_queries:
         indices = sorted(rng.choice(len(data), size=max_queries, replace=False))
@@ -164,14 +155,12 @@ def main():
     data_sub = [data[i] for i in indices]
     print(f"  Using {len(indices)} queries")
 
-    # Load embeddings
     model_name = cfg["embedding_model"]["name"]
     emb_dir = SOURCE_DIR / model_name
     corpus_embs = np.load(emb_dir / "corpus_embs.npy")
     query_embs = np.load(emb_dir / "query_embs.npy")
     query_embs_sub = query_embs[indices]
 
-    # Retrieval
     print("\nComputing retrieval results...")
     retrieval_results = {}
 
@@ -190,10 +179,6 @@ def main():
 
     all_contexts = [d["context"] for d in data]
 
-    # Load LLM
-    model = load_llm(cfg["llm"])
-
-    # Run RAG for each method
     all_method_results = {}
 
     for method_name, topk_indices in retrieval_results.items():
@@ -207,9 +192,7 @@ def main():
             question = data_sub[qi]["question"]
 
             prompt = format_rag_prompt(question, retrieved_docs)
-            raw = generate_answer(model, prompt,
-                                  max_tokens=cfg["llm"]["max_tokens"],
-                                  temperature=cfg["llm"]["temperature"])
+            raw = generate_answer(prompt, max_tokens=cfg["llm"]["max_tokens"])
             parsed = parse_answer(raw)
 
             answers.append({
@@ -220,11 +203,10 @@ def main():
             })
 
         all_method_results[method_name] = answers
-
         with open(results_dir / f"answers_{method_name}.json", "w") as f:
             json.dump(answers, f, indent=2)
 
-    # --- Evaluate ---
+    # Evaluate
     print(f"\n{'='*60}")
     print("  EVALUATION")
     print(f"{'='*60}")
@@ -237,19 +219,18 @@ def main():
         em = sum(1 for g, p in zip(golds, preds) if g == p) / len(golds)
         unparseable = sum(1 for p in preds if p == "unparseable") / len(preds)
 
-        # Per-class
         class_stats = {}
         for label in ["yes", "no", "maybe"]:
             total = sum(1 for g in golds if g == label)
             correct = sum(1 for g, p in zip(golds, preds)
                           if g == label and p == label)
             class_stats[label] = {
-                "total": total,
-                "correct": correct,
+                "total": total, "correct": correct,
                 "accuracy": correct / total if total > 0 else 0,
             }
 
-        display = "Plaintext / MPC (identical)" if method_name == "plaintext_and_mpc" else method_name
+        display = ("Plaintext / MPC (identical)"
+                    if method_name == "plaintext_and_mpc" else method_name)
 
         row = {
             "Method": display,
@@ -271,7 +252,6 @@ def main():
                   f"({s['accuracy']:.3f})")
         print(f"    Unparseable: {unparseable:.3f}")
 
-    # Save
     df = pd.DataFrame(summary)
     print(f"\n{'='*60}")
     print("  SUMMARY")
@@ -282,7 +262,6 @@ def main():
     with open(results_dir / "summary.json", "w") as f:
         json.dump(summary, f, indent=2, default=str)
 
-    # Degradation analysis
     if len(summary) >= 2:
         pt_em = summary[0]["EM"]
         print(f"\n  Baseline (Plaintext/MPC) EM: {pt_em:.3f}")

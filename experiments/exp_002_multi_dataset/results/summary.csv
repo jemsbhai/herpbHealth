@@ -1,0 +1,17 @@
+Dataset,Model,Method,R@1,R@5,rho,Gold R@1,Lat(ms)
+MedMCQA,MedCPT,MPC-query_private,0.999,0.997,1.0000,0.430,6.71
+MedMCQA,MedCPT,MPC-mutual_privacy,0.999,0.997,1.0000,0.430,15.75
+MedMCQA,MedCPT,DP-eps1,0.000,0.000,0.0153,0.000,
+MedMCQA,MedCPT,DP-eps10,0.001,0.000,0.0752,0.001,
+MedMCQA,MiniLM,MPC-query_private,1.000,0.999,1.0000,0.572,2.90
+MedMCQA,MiniLM,MPC-mutual_privacy,1.000,0.999,1.0000,0.572,6.88
+MedMCQA,MiniLM,DP-eps1,0.000,0.000,0.0098,0.001,
+MedMCQA,MiniLM,DP-eps10,0.002,0.000,0.0867,0.002,
+MedQA,MedCPT,MPC-query_private,1.000,0.999,1.0000,,5.81
+MedQA,MedCPT,MPC-mutual_privacy,1.000,0.999,1.0000,,14.86
+MedQA,MedCPT,DP-eps1,0.000,0.000,0.0075,,
+MedQA,MedCPT,DP-eps10,0.000,0.000,0.0608,,
+MedQA,MiniLM,MPC-query_private,1.000,0.998,1.0000,,2.86
+MedQA,MiniLM,MPC-mutual_privacy,1.000,0.998,1.0000,,6.80
+MedQA,MiniLM,DP-eps1,0.001,0.000,0.0051,,
+MedQA,MiniLM,DP-eps10,0.002,0.000,0.1045,,

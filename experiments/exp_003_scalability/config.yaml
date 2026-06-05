@@ -1,0 +1,28 @@
+# EXP-003: Scalability Benchmark (Latency, Throughput, Communication, Storage)
+# Varies corpus size N from 100 to 10,000 with synthetic embeddings
+
+experiment:
+  id: "EXP-003"
+  name: "scalability"
+  description: "Measure latency, communication, and storage scaling with corpus size"
+
+corpus_sizes: [100, 250, 500, 1000, 2500, 5000, 10000]
+dimensions: [384, 768]
+scale_bits: 16
+
+retrieval:
+  modes: ["query_private", "mutual_privacy"]
+  n_queries: 100       # per configuration
+  warmup_queries: 5
+
+# Communication analysis (analytical)
+communication:
+  # Query-private online: query shares only (2 * d * 8 bytes)
+  # Mutual-privacy online: f = q - b (d * 8 bytes) + score shares (2 * N * 8 bytes)
+  # Per-document storage: QP = d * 8 bytes; MP = 2 * d * 8 bytes (two shares)
+  notes: "Computed analytically from protocol structure"
+
+reproducibility:
+  seed: 42
+
+output_dir: "experiments/exp_003_scalability"

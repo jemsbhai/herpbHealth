@@ -82,11 +82,35 @@ tested benchmarks.
 
 ### End-to-End RAG Quality (EXP-006)
 
-*Pending -- experiment running.*
+DP degrades downstream LLM answer quality by **52--58% relative** to
+plaintext/MPC on PubMedQA (yes/no/maybe). MPC answer quality is identical
+to plaintext by construction (identical retrieved documents produce identical
+LLM prompts).
+
+| Method                      | EM    | Yes Acc | No Acc | Maybe Acc |
+|-----------------------------|-------|---------|--------|-----------|
+| Plaintext / MPC (identical) | 0.430 | 0.562   | 0.215  | 0.391     |
+| DP (epsilon=1)              | 0.205 | 0.116   | 0.185  | 0.696     |
+| DP (epsilon=10)             | 0.180 | 0.089   | 0.138  | 0.739     |
+
+Under DP, the LLM degenerates to answering "maybe" on 70--74% of questions.
+When retrieved context is irrelevant (random documents due to DP noise), the
+model finds no evidence for "yes" or "no" and hedges. This is a clinically
+dangerous failure mode: the system becomes systematically indecisive rather
+than providing the clear guidance clinicians need.
 
 ---
 
 ## Raw Findings Log
+
+### 2026-06-05 -- EXP-006: DP Degrades Answer Quality by 52--58%
+
+**Key result:** End-to-end RAG with Phi-3.5-mini on PubMedQA. Plaintext/MPC
+EM = 0.430. DP eps=1 EM = 0.205 (-52.3%). DP eps=10 EM = 0.180 (-58.1%).
+Under DP, LLM answers degenerate to "maybe" (70--74%), a clinically useless
+hedging behavior caused by irrelevant retrieved context.
+
+---
 
 ### 2026-06-05 -- EXP-005: Precision Threshold at k=12
 

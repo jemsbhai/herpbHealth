@@ -1,0 +1,29 @@
+# EXP-004: CKKS Homomorphic Encryption Baseline
+# Direct comparison: CKKS vs our MPC for encrypted similarity search
+
+experiment:
+  id: "EXP-004"
+  name: "ckks_baseline"
+  description: "Measure CKKS latency, accuracy, and storage vs our MPC protocol"
+
+source_experiment: "exp_000_pubmedqa_baseline"
+
+ckks:
+  poly_modulus_degree: 8192      # 128-bit security
+  coeff_mod_bit_sizes: [60, 40, 40, 60]  # supports 1 multiplication
+  global_scale_bits: 40
+  max_queries: 50                # CKKS is slow; subsample queries
+
+embedding_models:
+  - name: "MiniLM"
+    dimension: 384
+
+corpus_sizes: [100, 500]        # CKKS is very slow at N=1000+
+
+retrieval:
+  top_k: [1, 5, 10]
+
+reproducibility:
+  seed: 42
+
+output_dir: "experiments/exp_004_ckks_baseline"

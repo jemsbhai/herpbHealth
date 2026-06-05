@@ -1,0 +1,1202 @@
+[
+  {
+    "query_idx": 6,
+    "gold": "maybe",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 22,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 28,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 32,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 34,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 37,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 53,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 55,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 57,
+    "gold": "maybe",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 66,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 69,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 71,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 73,
+    "gold": "yes",
+    "raw_answer": "Unrelated",
+    "parsed_answer": "unparseable"
+  },
+  {
+    "query_idx": 76,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 84,
+    "gold": "maybe",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 86,
+    "gold": "maybe",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 87,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 103,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 104,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 105,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 113,
+    "gold": "no",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 117,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 120,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 125,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 128,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 132,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 138,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 141,
+    "gold": "yes",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 149,
+    "gold": "no",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 150,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 157,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 161,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 162,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 164,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 165,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 180,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 189,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 199,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 202,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 214,
+    "gold": "yes",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 221,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 225,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 232,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 236,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 252,
+    "gold": "no",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 258,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 260,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 267,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 277,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 280,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 282,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 284,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 289,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 298,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 299,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 304,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 310,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 316,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 321,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 323,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 326,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 332,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 338,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 341,
+    "gold": "no",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 346,
+    "gold": "no",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 348,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 352,
+    "gold": "maybe",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 355,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 359,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 368,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 369,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 374,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 376,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 377,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 385,
+    "gold": "maybe",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 387,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 391,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 394,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 398,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 403,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 404,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 408,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 410,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 414,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 416,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 419,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 425,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 426,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 428,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 435,
+    "gold": "yes",
+    "raw_answer": "Uncertain",
+    "parsed_answer": "unparseable"
+  },
+  {
+    "query_idx": 439,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 450,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 452,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 462,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 468,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 484,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 488,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 491,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 496,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 507,
+    "gold": "no",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 515,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 520,
+    "gold": "yes",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 522,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 523,
+    "gold": "no",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 525,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 526,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 530,
+    "gold": "yes",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 531,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 533,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 557,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 563,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 564,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 572,
+    "gold": "no",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 575,
+    "gold": "yes",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 584,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 587,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 589,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 590,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 598,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 600,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 602,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 603,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 604,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 612,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 616,
+    "gold": "no",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 619,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 620,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 625,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 632,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 638,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 639,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 641,
+    "gold": "no",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 644,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 646,
+    "gold": "yes",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 661,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 677,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 679,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 681,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 682,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 685,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 687,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 692,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 693,
+    "gold": "yes",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 700,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 703,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 707,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 709,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 712,
+    "gold": "no",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 717,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 718,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 721,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 726,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 736,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 740,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 741,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 743,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 750,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 751,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 752,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 757,
+    "gold": "no",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 763,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 779,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 785,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 786,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 790,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 792,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 794,
+    "gold": "yes",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 803,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 807,
+    "gold": "yes",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 813,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 821,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 828,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 832,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 835,
+    "gold": "no",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 858,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 861,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 870,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 871,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 874,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 881,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 885,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 909,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 911,
+    "gold": "yes",
+    "raw_answer": "Yes",
+    "parsed_answer": "yes"
+  },
+  {
+    "query_idx": 913,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 914,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 920,
+    "gold": "yes",
+    "raw_answer": "No",
+    "parsed_answer": "no"
+  },
+  {
+    "query_idx": 924,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 929,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 938,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 939,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 943,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 954,
+    "gold": "maybe",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 957,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 960,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 961,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 966,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 972,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 980,
+    "gold": "yes",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 984,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  },
+  {
+    "query_idx": 995,
+    "gold": "no",
+    "raw_answer": "Maybe",
+    "parsed_answer": "maybe"
+  }
+]

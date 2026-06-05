@@ -591,3 +591,18 @@ Default k=16 provides 4 bits of engineering margin.
 
 Higher dimension = more sensitive to low precision (768-d degrades faster).
 Degradation is graceful (unlike DP which destroys rankings at all levels).
+
+
+#### EXP-006 Results (2026-06-05, completed)
+
+**Status: completed**
+
+| Method                     | EM    | Yes Acc | No Acc | Maybe Acc | Unparseable |
+|----------------------------|-------|---------|--------|-----------|-------------|
+| Plaintext / MPC (identical)| 0.430 | 0.562   | 0.215  | 0.391     | 0.000       |
+| DP (epsilon=1)             | 0.205 | 0.116   | 0.185  | 0.696     | 0.005       |
+| DP (epsilon=10)            | 0.180 | 0.089   | 0.138  | 0.739     | 0.010       |
+
+DP degrades end-to-end answer quality by 52-58% relative to plaintext/MPC.
+Under DP, the LLM degenerates to "maybe" (70-74%) -- clinically useless.
+MPC answer quality is identical to plaintext by construction (same docs retrieved).

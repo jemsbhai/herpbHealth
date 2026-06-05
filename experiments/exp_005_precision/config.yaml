@@ -1,0 +1,25 @@
+# EXP-005: Encoding Precision Sensitivity
+# How does fixed-point scale bits k affect ranking agreement?
+
+experiment:
+  id: "EXP-005"
+  name: "precision_sensitivity"
+  description: "Vary encoding precision k to find the threshold where quantization affects rankings"
+
+source_experiment: "exp_000_pubmedqa_baseline"
+
+scale_bits_values: [4, 6, 8, 10, 12, 14, 16, 18, 20, 24]
+
+embedding_models:
+  - name: "MiniLM"
+    dimension: 384
+  - name: "MedCPT"
+    dimension: 768
+
+retrieval:
+  top_k: [1, 5, 10]
+
+reproducibility:
+  seed: 42
+
+output_dir: "experiments/exp_005_precision"
