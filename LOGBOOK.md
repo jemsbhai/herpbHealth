@@ -303,3 +303,60 @@ establish the accuracy-privacy tradeoff that MPC-based approaches bypass.
 ### Artifacts
 - Config: experiments/exp_001_dp_baseline/config.yaml
 - Results: experiments/exp_001_dp_baseline/results/
+
+
+---
+
+## EXP-002: Multi-Dataset Retrieval Correctness (MedQA + MedMCQA)
+
+**Date:** 2026-06-05
+**Researcher:** Muntaser Syed
+**Type:** computational
+**Status:** planned
+
+### Hypothesis
+Private retrieval ranking preservation (100% agreement with plaintext)
+generalizes across medical QA datasets beyond PubMedQA. DP retrieval
+degradation (functionally random) also generalizes. If the protocol is
+exact for any embedding, the dataset should not matter -- but confirming
+across multiple benchmarks is necessary for publication credibility.
+
+### Independent Variables
+- Dataset: MedMCQA (self-retrieval with explanations), MedQA (cross-split clinical vignette retrieval)
+- Privacy mode: plaintext, query-private, mutual-privacy
+- Embedding model: MedCPT (768-d), MiniLM (384-d)
+- DP baseline: epsilon in {1, 10}
+
+### Dependent Variables / Metrics
+- Recall@1, @5, @10 agreement with plaintext
+- Gold Recall@1, @5, @10 (MedMCQA only, which has gold labels)
+- Spearman rho
+- Max absolute similarity error
+- Per-query latency
+- DP degradation at epsilon=1 and epsilon=10
+
+### Protocol
+1. Load MedMCQA validation split, filter to examples with explanations (>=20 chars), cap at 2000
+2. Load MedQA: 2000 training vignettes as corpus, up to 1000 test questions as queries
+3. For each dataset x model: encode, run MPC (both modes), run DP (epsilon=1,10)
+4. Compare all rankings to plaintext
+5. Save results
+
+### Environment
+- **Hardware:** Windows laptop, 64GB RAM, RTX 4090
+- **Software:** Python 3.12, numpy, sentence-transformers, herpb
+- **Config:** configs/exp_002_multi_dataset.yaml
+- **Seeds:** 42
+
+### Results
+(to be filled after execution)
+
+### Observations
+(to be filled after execution)
+
+### Interpretation
+(to be filled after execution)
+
+### Artifacts
+- Config: experiments/exp_002_multi_dataset/config.yaml
+- Results: experiments/exp_002_multi_dataset/results/
