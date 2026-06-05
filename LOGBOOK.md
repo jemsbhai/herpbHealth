@@ -360,3 +360,234 @@ across multiple benchmarks is necessary for publication credibility.
 ### Artifacts
 - Config: experiments/exp_002_multi_dataset/config.yaml
 - Results: experiments/exp_002_multi_dataset/results/
+
+
+---
+
+## EXP-003: Scalability Benchmark (Latency, Communication, Storage)
+
+**Date:** 2026-06-05
+**Researcher:** Muntaser Syed
+**Type:** computational
+**Status:** planned
+
+### Hypothesis
+Per-query latency scales linearly with corpus size N and embedding dimension d,
+following the matrix-vector multiplication structure of the protocol. Online
+communication for mutual-privacy mode is O(d) per query (independent of N
+after Beaver setup). Per-document storage for our protocol is orders of
+magnitude smaller than CKKS ciphertexts.
+
+### Independent Variables
+- Corpus size N: {100, 250, 500, 1000, 2500, 5000, 10000}
+- Embedding dimension d: {384, 768}
+- Privacy mode: query-private, mutual-privacy
+
+### Dependent Variables / Metrics
+- Per-query latency (median, p5, p95) in ms
+- Throughput (queries/second)
+- Beaver triple setup time (one-time offline)
+- Online communication per query (bytes)
+- Per-document storage (bytes)
+- Comparison: our storage vs CKKS (~32KB/doc)
+
+### Protocol
+1. Generate synthetic normalized embeddings at each (N, d)
+2. Run 100 queries per configuration with 5-query warmup
+3. Measure per-query latency for QP and MP
+4. Compute communication and storage analytically from protocol structure
+5. Compare against published CKKS storage requirements
+
+### Environment
+- **Hardware:** Windows laptop, 64GB RAM (CPU only, no GPU needed)
+- **Config:** configs/exp_003_scalability.yaml
+- **Seeds:** 42
+
+### Results
+(to be filled after execution)
+
+### Artifacts
+- Results: experiments/exp_003_scalability/results/
+
+
+#### EXP-003 Results (2026-06-05, completed)
+
+**Status: completed**
+
+Linear scaling confirmed across all configurations. Key numbers:
+
+| d   | N     | QP (ms) | MP (ms) | QP q/s | MP q/s |
+|-----|-------|---------|---------|--------|--------|
+| 384 | 100   | 0.099   | 0.318   | 10,070 | 3,140  |
+| 384 | 1,000 | 1.433   | 3.528   | 698    | 283    |
+| 384 | 10,000| 15.596  | 39.357  | 64     | 25     |
+| 768 | 100   | 0.206   | 0.642   | 4,863  | 1,557  |
+| 768 | 1,000 | 2.934   | 7.174   | 341    | 139    |
+| 768 | 10,000| 31.314  | 78.738  | 32     | 13     |
+
+Sub-millisecond achieved at N<=250 (d=384), N<=100 (d=768).
+Storage: MP 3-5x smaller than CKKS per document.
+Communication: 8-180 KB per query depending on N and d.
+
+
+---
+
+## EXP-004: CKKS Homomorphic Encryption Baseline
+
+**Date:** 2026-06-05
+**Researcher:** Muntaser Syed
+**Type:** computational
+**Status:** planned
+
+### Hypothesis
+CKKS encrypted similarity search will be orders of magnitude slower than our
+MPC protocol, require significantly larger per-document storage (KB-scale
+ciphertexts vs bytes-scale shares), and may introduce ranking changes due to
+CKKS approximation noise. Our MPC protocol achieves exact computation with
+information-theoretic security, while CKKS provides computational security
+with inherent noise.
+
+### Independent Variables
+- Corpus size: N in {100, 500}
+- Method: CKKS vs MPC (from EXP-003 scaling data)
+
+### Dependent Variables / Metrics
+- Per-query latency (ms)
+- Recall@1, @5, @10 agreement with plaintext
+- Spearman rho between CKKS and plaintext scores
+- Max/mean absolute similarity error
+- Ciphertext size (KB/document)
+- Speedup ratio: CKKS latency / MPC latency
+
+### Protocol
+1. Load MiniLM embeddings from EXP-000
+2. Create CKKS context (poly_modulus_degree=8192, 128-bit security)
+3. Encrypt document corpus as CKKS vectors
+4. For each query: encrypt, compute N dot products, decrypt, rank
+5. Compare CKKS rankings to plaintext ground truth
+6. Compare latency and storage to MPC numbers from EXP-003
+
+### Environment
+- **Hardware:** Windows laptop, 64GB RAM, CPU (CKKS is CPU-only)
+- **Software:** Python 3.12, tenseal
+- **Config:** configs/exp_004_ckks_baseline.yaml
+- **Seeds:** 42
+
+### Results
+(to be filled after execution)
+
+### Artifacts
+- Results: experiments/exp_004_ckks_baseline/results/
+
+
+---
+
+## EXP-005: Encoding Precision Sensitivity
+
+**Date:** 2026-06-05
+**Researcher:** Muntaser Syed
+**Type:** computational
+**Status:** planned
+
+### Hypothesis
+Ranking agreement degrades gracefully as precision k decreases. At k>=12,
+agreement should remain near-perfect. At very low k (4-8), quantization
+error may cause significant ranking changes. This establishes the minimum
+precision needed for reliable private retrieval and demonstrates the
+engineering margin available at k=16.
+
+### Independent Variables
+- Scale bits k: {4, 6, 8, 10, 12, 14, 16, 18, 20, 24}
+- Embedding model: MiniLM (384-d), MedCPT (768-d)
+
+### Dependent Variables
+- Recall@1, @5, @10 agreement with plaintext
+- Spearman rho
+- Max absolute similarity error vs theoretical bound
+
+### Protocol
+1. Load embeddings from EXP-000
+2. For each k: encode to fixed-point, run QP retrieval, compare to plaintext
+3. Report agreement and error at each precision level
+
+### Artifacts
+- Results: experiments/exp_005_precision/results/
+
+---
+
+## EXP-006: End-to-End RAG Quality
+
+**Date:** 2026-06-05
+**Researcher:** Muntaser Syed
+**Type:** computational
+**Status:** planned
+
+### Hypothesis
+Because MPC retrieval produces identical documents to plaintext, the LLM
+receives identical prompts and generates identical answers. MPC answer quality
+(EM, accuracy) is therefore identical to plaintext by construction. DP
+retrieval produces wrong documents, causing the LLM to generate degraded
+clinical responses. The EM gap between plaintext and DP quantifies the
+clinical cost of noise-based privacy.
+
+### Independent Variables
+- Retrieval method: plaintext/MPC (identical), DP(eps=1), DP(eps=10)
+- LLM: Phi-3.5-mini-instruct (4-bit quantized)
+
+### Dependent Variables
+- Exact Match accuracy on PubMedQA (yes/no/maybe)
+- Unparseable rate
+- Relative EM degradation under DP
+
+### Protocol
+1. Load PubMedQA + MiniLM embeddings from EXP-000
+2. Subsample 200 queries
+3. Retrieve top-5 docs for plaintext, DP(eps=1), DP(eps=10)
+4. Format RAG prompts, run LLM with greedy decoding
+5. Parse answers, compare to gold
+6. MPC result = plaintext result (identical retrieval, proven in EXP-000)
+
+### Environment
+- **Hardware:** Windows laptop, 64GB RAM, RTX 4090
+- **Software:** Python 3.12, transformers, bitsandbytes, accelerate
+- **Config:** configs/exp_006_e2e_rag.yaml
+
+### Artifacts
+- Results: experiments/exp_006_e2e_rag/results/
+
+
+#### EXP-004 Results (2026-06-05, completed)
+
+**Status: completed**
+
+| N   | CKKS lat(ms) | MPC-QP(ms) | Speedup | CKKS R@1 | CKKS CT(KB) | MPC stor(KB) | Storage ratio |
+|-----|-------------|------------|---------|----------|-------------|--------------|---------------|
+| 100 | 1,453       | 0.10       | 14,629x | 1.000    | 326         | 6.0          | 54x           |
+| 500 | 7,655       | 0.82       | 9,356x  | 1.000    | 327         | 6.0          | 54x           |
+
+CKKS preserves ranking accuracy at these corpus sizes (max error ~2e-6).
+The gap is purely in performance and storage, not accuracy.
+CKKS provides computational security (lattice hardness assumption).
+MPC provides information-theoretic security (unconditional).
+
+
+#### EXP-005 Results (2026-06-05, completed)
+
+**Status: completed**
+
+Precision threshold at k=12 (R@1>=0.999, R@5>=0.993 for both models).
+Default k=16 provides 4 bits of engineering margin.
+
+| Model  | k  | R@1   | R@5   | Max Error |
+|--------|----|-------|-------|-----------|
+| MiniLM | 4  | 0.979 | 0.304 | 1.22e-01  |
+| MiniLM | 8  | 1.000 | 0.932 | 8.42e-03  |
+| MiniLM | 12 | 1.000 | 0.994 | 4.67e-04  |
+| MiniLM | 16 | 1.000 | 1.000 | 3.31e-05  |
+| MedCPT | 4  | 0.919 | 0.050 | 1.27e-01  |
+| MedCPT | 8  | 0.995 | 0.863 | 7.65e-03  |
+| MedCPT | 12 | 0.999 | 0.993 | 4.37e-04  |
+| MedCPT | 16 | 1.000 | 1.000 | 3.03e-05  |
+
+Higher dimension = more sensitive to low precision (768-d degrades faster).
+Degradation is graceful (unlike DP which destroys rankings at all levels).
