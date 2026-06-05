@@ -1,0 +1,31 @@
+# EXP-001: Differential Privacy Baseline -- Retrieval Degradation
+# Reuses embeddings from EXP-000 (no GPU needed)
+
+experiment:
+  id: "EXP-001"
+  name: "dp_baseline"
+  description: "Measure retrieval degradation under differential privacy noise"
+
+# Load embeddings from EXP-000
+source_experiment: "exp_000_pubmedqa_baseline"
+
+embedding_models:
+  - name: "MedCPT"
+    dimension: 768
+  - name: "MiniLM"
+    dimension: 384
+
+differential_privacy:
+  # Gaussian mechanism parameters
+  epsilons: [0.5, 1, 2, 5, 10]
+  delta: 1.0e-6
+  l2_sensitivity: 2.0  # max L2 distance between unit vectors
+  noise_trials: 10     # repeat each epsilon to capture variance
+
+retrieval:
+  top_k: [1, 5, 10]
+
+reproducibility:
+  seed: 42
+
+output_dir: "experiments/exp_001_dp_baseline"

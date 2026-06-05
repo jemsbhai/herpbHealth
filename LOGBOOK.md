@@ -154,11 +154,152 @@ other datasets. If a general-purpose 384-d model outperforms a medical 768-d
 model, it has practical implications: smaller dimension means faster private
 retrieval and lower communication overhead.
 
-**Next:** EXP-001 with MedQA and MedMCQA datasets. EXP-002 for end-to-end
-RAG quality (retrieval + LLM answer generation).
+**Next:** EXP-001 DP baseline to quantify the accuracy-privacy tradeoff that
+our protocol avoids entirely.
 
 ### Artifacts
 - Config: experiments/exp_000_pubmedqa_baseline/config.yaml
 - Results: experiments/exp_000_pubmedqa_baseline/results/
 - Embeddings: experiments/exp_000_pubmedqa_baseline/results/{MedCPT,MiniLM}/
 - Logs: experiments/exp_000_pubmedqa_baseline/logs/
+
+---
+
+## EXP-001: Differential Privacy Baseline -- Retrieval Degradation
+
+**Date:** 2026-06-05
+**Researcher:** Muntaser Syed
+**Type:** computational
+**Status:** completed
+
+### Hypothesis
+Adding calibrated Gaussian noise to query embeddings under the differential
+privacy framework will degrade retrieval accuracy compared to plaintext,
+with degradation increasing as the privacy budget epsilon decreases (stronger
+privacy = more noise = worse retrieval). At clinically meaningful privacy
+levels (epsilon <= 5), we expect measurable drops in Recall@1 and Recall@5,
+demonstrating that DP-based privacy introduces a fundamental
+accuracy-privacy tradeoff that our exact MPC protocol avoids entirely.
+
+### Independent Variables
+- Privacy budget: epsilon in {0.5, 1, 2, 5, 10} (delta = 1e-6)
+- Embedding model: MedCPT (768-d), all-MiniLM-L6-v2 (384-d)
+- Number of noise trials per query: 10 (to capture variance)
+
+### Dependent Variables / Metrics
+- Recall@1, @5, @10 agreement with plaintext (mean +/- std over noise trials)
+- Gold Recall@1, @5, @10 (does the correct document appear in top-k?)
+- Rank displacement: mean change in rank of the gold document
+- Spearman rho between noisy and plaintext similarity scores
+
+### Control Conditions
+- Plaintext retrieval from EXP-000 is the ground truth baseline
+- Our MPC results from EXP-000 (100% agreement) are the comparison point
+- Same embeddings (loaded from EXP-000 saved .npy files)
+- Gaussian mechanism with L2 sensitivity = 2 (unit-norm embeddings)
+
+### Protocol
+1. Load saved embeddings from experiments/exp_000_pubmedqa_baseline/results/
+2. Load plaintext similarity scores and rankings from EXP-000
+3. For each epsilon value:
+   a. Compute sigma = (2 * sqrt(2 * ln(1.25 / delta))) / epsilon
+   b. For each noise trial (10 trials):
+      - Add N(0, sigma^2 * I) noise to each query embedding
+      - Re-normalize noisy queries to unit length
+      - Compute cosine similarity against (unchanged) corpus
+      - Compare rankings to plaintext ground truth
+   c. Report mean and std of all metrics across trials
+4. Save results to experiments/exp_001_dp_baseline/results/
+
+### Environment
+- **Hardware:** Windows laptop, 64GB RAM (no GPU needed)
+- **Software:** Python 3.12, numpy, scipy
+- **Config file:** configs/exp_001_dp_baseline.yaml
+- **Seeds:** 42 (base seed; per-trial seeds derived as seed + trial_idx)
+
+### Results
+
+**Gaussian mechanism:** sigma = sensitivity * sqrt(2 * ln(1.25/delta)) / epsilon,
+with L2 sensitivity = 2 (unit-norm embeddings), delta = 1e-6.
+
+#### MedCPT (768-d)
+
+| Method      | epsilon | sigma  | R@1 Agree       | R@5 Agree       | Gold R@1        | Rank Disp       |
+|-------------|---------|--------|-----------------|-----------------|-----------------|-----------------|
+| MPC (ours)  | --      | 0      | 1.000           | 1.000           | 0.958           | 0.0             |
+| DP-Gaussian | 0.5     | 21.195 | 0.001+/-0.001   | 0.000+/-0.000   | 0.001+/-0.001   | 494.5+/-9.6     |
+| DP-Gaussian | 1.0     | 10.598 | 0.001+/-0.001   | 0.000+/-0.000   | 0.001+/-0.001   | 489.0+/-9.6     |
+| DP-Gaussian | 2.0     | 5.299  | 0.001+/-0.001   | 0.000+/-0.000   | 0.001+/-0.001   | 478.2+/-9.6     |
+| DP-Gaussian | 5.0     | 2.120  | 0.002+/-0.001   | 0.000+/-0.000   | 0.002+/-0.001   | 445.8+/-9.7     |
+| DP-Gaussian | 10.0    | 1.060  | 0.004+/-0.001   | 0.000+/-0.000   | 0.003+/-0.001   | 392.6+/-9.6     |
+
+#### all-MiniLM-L6-v2 (384-d)
+
+| Method      | epsilon | sigma  | R@1 Agree       | R@5 Agree       | Gold R@1        | Rank Disp       |
+|-------------|---------|--------|-----------------|-----------------|-----------------|-----------------|
+| MPC (ours)  | --      | 0      | 1.000           | 1.000           | 0.971           | 0.0             |
+| DP-Gaussian | 0.5     | 21.195 | 0.001+/-0.001   | 0.000+/-0.000   | 0.001+/-0.001   | 485.6+/-5.1     |
+| DP-Gaussian | 1.0     | 10.598 | 0.001+/-0.001   | 0.000+/-0.000   | 0.001+/-0.001   | 476.8+/-5.1     |
+| DP-Gaussian | 2.0     | 5.299  | 0.002+/-0.001   | 0.000+/-0.000   | 0.002+/-0.001   | 459.2+/-5.1     |
+| DP-Gaussian | 5.0     | 2.120  | 0.002+/-0.002   | 0.000+/-0.000   | 0.002+/-0.001   | 407.4+/-5.1     |
+| DP-Gaussian | 10.0    | 1.060  | 0.006+/-0.002   | 0.000+/-0.000   | 0.006+/-0.002   | 325.1+/-4.9     |
+
+### Observations
+
+1. **DP destroys retrieval at every tested privacy level.** Even at epsilon=10
+   (considered very weak privacy in the DP literature), Recall@1 agreement
+   with plaintext is below 1%, and Recall@5 agreement is effectively zero.
+   DP-protected retrieval is functionally random.
+
+2. **The degradation is not gradual; it is catastrophic.** The gold document
+   is displaced by 325--495 rank positions (out of 1000) on average. This is
+   not a matter of missing the correct document by one or two positions; the
+   entire ranking is scrambled.
+
+3. **The root cause is dimensional.** For unit-normalized d-dimensional
+   embeddings, individual components have magnitude ~1/sqrt(d). At d=384,
+   each component is ~0.051. The Gaussian noise sigma at epsilon=10 is 1.06,
+   roughly 20x larger than the signal per component. At epsilon=1, sigma=10.6,
+   which is 208x larger. The noise overwhelms the signal in every dimension
+   simultaneously.
+
+4. **Lower dimension (MiniLM 384-d) fares slightly better than higher
+   dimension (MedCPT 768-d)** at epsilon=10 (rank displacement 325 vs. 393),
+   because higher-dimensional embeddings have smaller per-component signal
+   (1/sqrt(768) = 0.036 vs. 1/sqrt(384) = 0.051), making them more
+   vulnerable to additive noise.
+
+5. **Variance across noise trials is very low** (std of rank displacement
+   is 5--10), confirming that the degradation is systematic, not a matter of
+   unlucky noise draws.
+
+### Interpretation
+
+The hypothesis is **confirmed beyond expectations**: DP does not merely
+degrade retrieval; it obliterates it. At every tested epsilon, the
+DP-protected system retrieves essentially random documents.
+
+This result has direct clinical implications. In a drug interaction checking
+scenario, DP-based retrieval would return unrelated drug records for
+virtually every query. In clinical decision support, the LLM would receive
+irrelevant guidelines and generate incorrect recommendations. The
+accuracy-privacy tradeoff under DP is not a graceful degradation; it is a
+cliff.
+
+Our MPC protocol avoids this tradeoff entirely: 100% ranking agreement, zero
+rank displacement, information-theoretic security. The contrast could not be
+starker.
+
+**Fairness note:** The Gaussian mechanism applied directly to query embeddings
+is the standard DP approach for embedding privacy. More sophisticated
+mechanisms exist (exponential mechanism for private selection, metric-based
+DP), but the fundamental constraint remains: any DP mechanism must add noise
+proportional to the sensitivity, and for high-dimensional embeddings this
+noise is inherently destructive. We document this standard baseline to
+establish the accuracy-privacy tradeoff that MPC-based approaches bypass.
+
+**Next:** EXP-002 on MedQA and MedMCQA for multi-dataset breadth.
+
+### Artifacts
+- Config: experiments/exp_001_dp_baseline/config.yaml
+- Results: experiments/exp_001_dp_baseline/results/
