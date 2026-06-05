@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment / secrets
+.env
+.env.local
+*.key
+*secrets*
+
+# Experiment outputs (large files)
+experiments/*/checkpoints/
+experiments/*/logs/
+experiments/*/results/*.npy
+experiments/*/results/*.pkl
+data/raw/*.csv
+data/raw/*.jsonl
+data/raw/*.parquet
+data/processed/
+
+# Model caches
+models/
+.cache/
+huggingface/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Coverage
+.coverage
+htmlcov/

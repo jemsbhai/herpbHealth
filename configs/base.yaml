@@ -1,0 +1,26 @@
+# Base configuration for herpbHealth experiments
+# Per-experiment overrides go in configs/exp_NNN_name.yaml
+
+# Encoding
+encoding:
+  scale_bits: 16          # Fixed-point scale factor (2^k)
+
+# Secret sharing
+secret_sharing:
+  ring_bits: 64           # Z_{2^64}
+
+# Embedding models (will be overridden per experiment)
+embedding:
+  model_name: "all-MiniLM-L6-v2"
+  dimension: 384
+  batch_size: 64
+  device: "cuda"
+
+# Retrieval
+retrieval:
+  top_k: 5
+  mode: "query_private"   # query_private | mutual_privacy
+
+# Reproducibility
+seed: 42
+num_workers: 4
