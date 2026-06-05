@@ -1,0 +1,41 @@
+# EXP-000: PubMedQA Retrieval Correctness and Latency Baseline
+# Frozen copy goes to experiments/exp_000_pubmedqa_baseline/config.yaml before execution
+
+experiment:
+  id: "EXP-000"
+  name: "pubmedqa_baseline"
+  description: "Verify private retrieval correctness and measure latency on PubMedQA"
+
+dataset:
+  name: "pubmedqa"
+  hf_path: "qiaojin/PubMedQA"
+  hf_subset: "pqa_labeled"
+  split: "train"  # PubMedQA labeled is all in train split
+
+embedding_models:
+  - name: "MedCPT"
+    hf_path: "ncbi/MedCPT-Article-Encoder"
+    query_encoder: "ncbi/MedCPT-Query-Encoder"
+    dimension: 768
+    batch_size: 64
+  - name: "MiniLM"
+    hf_path: "sentence-transformers/all-MiniLM-L6-v2"
+    query_encoder: null  # same model for queries and docs
+    dimension: 384
+    batch_size: 64
+
+encoding:
+  scale_bits: 16
+
+retrieval:
+  top_k: [1, 5, 10]
+  modes: ["plaintext", "query_private", "mutual_privacy"]
+
+timing:
+  warmup_queries: 5
+  repetitions: 1  # each query is one trial; aggregate over all queries
+
+reproducibility:
+  seed: 42
+
+output_dir: "experiments/exp_000_pubmedqa_baseline"
